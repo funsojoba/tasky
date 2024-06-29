@@ -1,0 +1,97 @@
+{% include "base.html" %}
+{% load crispy_forms_tags %}
+
+
+
+{% block body %}
+{% if errors %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Error!</strong> 
+        <span class="block sm:inline">{{errors}}</span>
+    </div>
+{% else %}
+{% endif %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div> 
+        <a href="{% url 'tasks:task_list'%}"> &#8592; Back Home </a>
+    </div>
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create a task</h2>
+  </div>
+
+  <form method="POST" action="#" class="mt-8 space-y-6 w-80 mx-auto">
+    {% csrf_token %}
+    <label class="paragraph-font" for="{{ form.title.id_for_label }}">Title</label>
+    <input 
+        type="text" 
+        value="{{ form.title.value|default_if_none:'' }}"
+        name="title" 
+        class="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
+        id="{{ form.title.id_for_label }}"
+        required
+        placeholder="User Flow">
+    
+    <label class="mb-4" for="{{ form.description.id_for_label }}">Description</label>
+    <textarea
+        name="description"
+        class="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+        id="{{ form.description.id_for_label }}"
+        required
+        placeholder="User Flow Description">{{ form.description.value|default_if_none:'' }}</textarea>
+    
+    <label class="paragraph-font" for="{{ form.due_date.id_for_label }}">Due Date</label>
+    <input
+        type="date"
+        value="{{ form.due_date.value|default_if_none:'' }}"
+        name="due_date"
+        class="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+        id="{{ form.due_date.id_for_label }}"
+        required
+        placeholder="Due Date">
+    
+    <label class="paragraph-font" for="{{ form.priority.id_for_label }}">Priority</label>
+    <select
+        name="priority"
+        class="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+        id="{{ form.priority.id_for_label }}"
+        required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+    
+    <label class="paragraph-font" for="{{ form.status.id_for_label }}">Status</label>
+    <select
+        name="status"
+        class="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+        id="{{ form.status.id_for_label }}"
+        required>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+            <option value="Overdue">Overdue</option>
+        </select>
+    
+    <label class="paragraph-font" for="{{ form.category.id_for_label }}">Category</label>
+    <input 
+        type="text"
+        value="{{ form.category.value|default_if_none:'' }}"
+        name="category"
+        class="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
+        id="{{ form.category.id_for_label }}"
+        required
+        placeholder="Category">
+    
+    <label class="paragraph-font" for="{{ form.assignee.id_for_label }}">Assignee</label>
+    <select multiple id="user"name="assigned_to" class=" border border-gray-300 t text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <div class="flex justify-end">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create Task
+        </button>
+    </div>
+</form>
+</div>
+{% endblock body %}
