@@ -1,0 +1,56 @@
+{% extends "sidebar.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="p-4 sm:ml-64">
+    <div class="w-full flex items-center justify-between mb-5">
+      <form> <input type="search" class="rounded" /> </form>
+      <div>
+         <div class="w-[30px] h-[30px] bg-[#3838E6] rounded-full "></div>
+      </div>
+   </div>
+   
+   <div class="w-full flex items-center justify-between mb-2">
+      <div class="flex items-center w-[150px]">
+         <button class="px-2 py-1 rounded border-2 m-2">Preview</button>
+         <button class="px-2 py-1 rounded border-2 m-2">Sort</button>
+         <button class="px-2 py-1 rounded border-2 m-2">Filter</button>
+      </div>
+   </div>
+
+   <div class="flex gap-[15px] flex-wrap w-[90%] mx-auto">
+        {% for task in tasks %}
+            <div >
+                <div class="flex mb-1 justify-between items-center">
+                    <small class="p-3 py-2 rounded {% if task.priority == 'High' %}bg-[#FFD1D1] text-[#9F3131]{% elif task.priority == 'Medium' %}bg-[#FED2A5] text-[#89531B]{% elif task.priority == 'Low' %}bg-[#E3FFE2] text-[#268324]{% endif %} p-4 rounded" > {{task.priority}}</small>
+                    <small class="p-3 py-2 rounded bg-white shadow-md"> {{task.due_date|date:"M d"}}</small>
+                    <small class="px-3 py-2 bg-[#ECE5FF] text-[#5824F0] rounded "> {{task.category}}</small>
+                    <small class="px-3 py-2 bg-[#ECE5FF] text-[#5824F0] rounded "> {{task.status}}</small>
+                </div>
+
+                <div class="bg-[#E8E8E8] mb-7 rounded p-3 w-[300px] mb-[10px]">
+                <h3> {{task.title}}</h3>
+                <p> {{task.description|truncatechars_html:100}}</p>
+                <div class="flex gap-[10px] justify-between items-center">
+                    <div>
+                        <div class="flex items-center gap-[5px]">
+                            {% for user in task.assigned_to.all %}
+                            <span class="flex items-center justify-center w-[30px] h-[30px] bg-[#3939E6] text-[#fff] rounded-full border border-solid border-white mx-[-5px]">{{user.username|slice:":1"}}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="{% url 'tasks:get_task' task.id %}" class="text-[#3838E6]"><i class="fa-regular fa-eye"></i></a>
+                        <button class="text-[#3838E6]"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="text-[#3838E6]"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
+   </div>
+</div>
+
+{% endblock content %}

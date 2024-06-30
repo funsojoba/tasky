@@ -9,7 +9,9 @@ from django.contrib.auth.models import User
 
 class TaskForm(forms.ModelForm):
     title = forms.CharField(max_length=255)
-    description = forms.CharField(max_length=255)
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Enter your text here', 'class': 'my-textarea-class'})
+    )
     due_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     status = forms.CharField(max_length=255)
     priority = forms.CharField(max_length=255)
