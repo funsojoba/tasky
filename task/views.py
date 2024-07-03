@@ -3,9 +3,13 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 
 from rest_framework.views import APIView
+from rest_framework.response import Response
+
+
 
 from .models import Task
 from .forms import TaskForm
+from .serializers import TaskSerializer
 
 
 @login_required
@@ -73,18 +77,10 @@ def get_users(request):
     users = get_user_model().objects.all()
     return render(request, 'task/list_users.html', {'users': users})
 
-class TaskView(APIView):
-    def delete(self, request, pk):
-        task = Task.objects.get(pk=pk)
-        task.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def get(self, request, pk):
-        task = Task.objects.get(pk=pk)
-        serializer = TaskSerializer(task)
-        return Response(serializer.data)
-    
-    def list(self, request):
+class ListTaskView(APIView):
+
+    def get(self, request):
         tasks = Task.objects.all()
         search = request.GET.get('search', '')
         sort = request.GET.get('sort', 'due_date')

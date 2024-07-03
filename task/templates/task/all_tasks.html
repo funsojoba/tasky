@@ -5,7 +5,7 @@
 
 <div class="p-4 sm:ml-64">
     <div class="w-full flex items-center justify-between mb-5">
-      <form> <input type="search" class="rounded" /> </form>
+      <form> <input type="search" class="rounded" placeholder="search" /> </form>
       <div>
          <div class="w-[30px] h-[30px] bg-[#3838E6] rounded-full "></div>
       </div>
@@ -19,7 +19,7 @@
       </div>
    </div>
 
-   <div class="flex gap-[15px] flex-wrap w-[90%] mx-auto">
+   <div class="flex gap-[15px] flex-wrap w-[90%] mx-auto" id="tasks">
         {% for task in tasks %}
             <div >
                 <div class="flex mb-1 justify-between items-center">
